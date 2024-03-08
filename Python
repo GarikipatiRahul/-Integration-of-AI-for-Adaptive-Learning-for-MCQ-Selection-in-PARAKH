@@ -1,0 +1,30 @@
+# app.py
+
+from flask import Flask, jsonify, request
+import random
+
+app = Flask(__name__)
+
+question_bank = {
+    "1": {"question": "What is the capital of France?", "options": ["Paris", "London", "Berlin", "Rome"], "answer": "Paris"},
+    "2": {"question": "What is the largest planet in our solar system?", "options": ["Mercury", "Venus", "Earth", "Jupiter"], "answer": "Jupiter"},       
+    # Add more questions to the question bank
+}
+
+def select_question(difficulty):
+    # This function selects a question from the question bank based on the adaptive algorithm
+    # For simplicity, it randomly selects a question for now
+    return random.choice(list(question_bank.values()))
+
+@app.route('/question', methods=['GET'])
+def get_question():
+    # Get the difficulty level from the frontend (can be based on previous responses)
+    difficulty = request.args.get('difficulty')
+    
+    # Select a question based on the difficulty level
+    selected_question = select_question(difficulty)
+    
+    return jsonify(selected_question)
+
+if __name__ == '__main__':
+    app.run(debug=True)
