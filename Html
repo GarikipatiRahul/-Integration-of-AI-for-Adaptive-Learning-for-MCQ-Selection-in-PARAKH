@@ -1,0 +1,40 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive MCQ Testing System</title>
+</head>
+<body>
+    <div id="question-container">
+        <h2 id="question"></h2>
+        <ul id="options"></ul>
+        <button onclick="submitAnswer()">Submit Answer</button>
+    </div>
+
+    <script>
+        function getQuestion() {
+            // Send GET request to backend to get the next question
+            fetch('/question?difficulty=medium')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('question').innerText = data.question;
+                    document.getElementById('options').innerHTML = '';
+                    data.options.forEach(option => {
+                        document.getElementById('options').innerHTML += `<li>${option}</li>`;
+                    });
+                });
+        }
+
+        function submitAnswer() {
+            // Send user's answer to backend for evaluation
+            // Implement this part based on your requirements
+        }
+
+        // Load the first question when the page loads
+        window.onload = getQuestion;
+    </script>
+</body>
+</html>
